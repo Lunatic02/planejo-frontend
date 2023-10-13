@@ -2,7 +2,7 @@ import {BsFillBoxFill, BsFillCartCheckFill, BsFillPersonPlusFill, BsPencilSquare
 
 export default function LeftSideMenu() {
   return (
-    <aside className="w-60 bg-zinc-100 border-zinc-300 shadow-2xl border h-screen">
+    <aside className="w-60 min-w-max bg-zinc-100 border-zinc-300 shadow-2xl border h-screen">
       <div className="p-4 flex-grow h-full flex flex-col">
         <h1 className="text-2xl font-bold h-20 p-2">LinhaSystem</h1>
         <nav className="flex flex-col h-max gap-5 text-lg flex-1">
