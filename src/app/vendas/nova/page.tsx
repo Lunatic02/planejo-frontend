@@ -3,12 +3,22 @@ import { Client } from '@/@types/Clients';
 import { Seller } from '@/@types/Seller';
 import { getClientInfo } from '@/utils/getClientInfo';
 import { getSellersInfo } from '@/utils/getSellersInfo';
+import { postSell } from '@/utils/postSell';
 import React, { useEffect, useState } from 'react';
 
 export default function NovaVenda() {
   const [sellerData, setSellerData] = useState<Seller[]>([]);
   const [clientData, setClientData] = useState<Client[]>([]);
 
+  // Create Sell UseState
+  const [amount, setAmount] = useState(0)
+  const [paymentType, setPaymentType] = useState('')
+  const [product, setProduct] = useState({})
+  const [order, setOrder] = useState(false)
+  const [supplier, setSuplier] = useState('')
+  const [deliveryDate, setDeliveryDate] = useState('')
+  const [clientId, setClientId] = useState(0)
+  const [sellerId, setSellerId] = useState(0)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,29 +31,30 @@ export default function NovaVenda() {
         console.error('Erro ao buscar dados do vendedor:', error);
       }
     };
-
     fetchData();
   }, [])
 
-  const [order, setOrder] = useState(false)
-  console.log(order)
-
   const handleSubmit = (e: any) => {
     e.preventDefault()
+    const products = {product}
+    const sell = JSON.stringify({amount, paymentType, products, order, supplier, deliveryDate, clientId, sellerId})
+    postSell(sell)
   }
+
   const handleCheckboxClick = () => {
     setOrder(!order)
   }
 
+
+  //Conteudo aba de encomendas
   let content
   content = (
-
     <div className='flex gap-4 flex-col'>
       <h1>Preencha os campos da encomenda.</h1>
       <div className='flex items-center gap-4'>
-        <input type="text" className='p-2 border' placeholder='Fornecedor' />
+        <input required type="text" className='p-2 border' placeholder='Fornecedor' onChange={(e)=> setSuplier(e.target.value)}/>
         <label>Data de entrega da encomenda?: </label>
-        <input type="date" className='p-2 border' placeholder='Fornecedor' />
+        <input required onChange={(e)=>setDeliveryDate(e.target.value)} type="date" className='p-2 border' placeholder='Fornecedor' />
       </div>
     </div>
 
@@ -57,28 +68,28 @@ export default function NovaVenda() {
           <label htmlFor="">Cliente:</label>
           <select className='p-2 bg-zinc-50 border rounded' id="Funcionarios">
             {clientData.map((client) => {
-              return <option className='' key={client.id} value={client.name}>{client.name}</option>
+              return <option onClick={()=>setClientId(client.id)} className='' key={client.id} value={client.name}>{client.name}</option>
             })}
           </select>
-          <label htmlFor="">Funcionário:</label>
+          <label htmlFor="">Vendedor:</label>
           <select className='p-2 bg-zinc-50 border rounded' id="Funcionarios">
             {sellerData.map((seller) => {
-              return <option className='' key={seller.id} value={seller.name}>{seller.name}</option>
+              return <option className='' onClick={()=>setSellerId(seller.id)} key={seller.id} value={seller.name}>{seller.name}</option>
             })}
           </select>
         </div>
         <label htmlFor="produtos">Produtos</label>
         <div className='flex gap-4'>
-          <textarea name="produtos" id="produtos" cols={50} placeholder='Produtos' className='rounded border resize-none p-2 h-10' />
-          <input type="number" className='rounded p-2 w-32 border' placeholder='Valor Total' />
+          <textarea name="produtos" onChange={(e)=>{setProduct(e.target.value)}} id="produtos" cols={50} placeholder='Produtos' className='rounded border resize-none p-2 h-10' />
+          <input required type="number" onChange={(e)=>setAmount(+e.target.value)} className='rounded p-2 w-32 border' placeholder='Valor Total' />
         </div>
         <div className='flex gap-4 items-center'>
-          <input type="text" className='rounded p-2 border' placeholder='Forma de pagamento' />
+          <input required type="text" className='rounded p-2 border' placeholder='Forma de pagamento' onChange={(e)=>setPaymentType(e.target.value)}/>
           <label>É uma encomenda?</label>
           <input type="checkbox" value={order} onClick={handleCheckboxClick} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
         </div>
-        {order ? <>{content}</> : <div>false</div>}
-        <button className='border'>Enviar</button>
+        {order ? <>{content}</> : <div></div>}
+        <button className='border p-2 w-80 bg-blue-500 text-white'>Enviar</button>
       </form>
     </main>
   );
