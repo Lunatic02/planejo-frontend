@@ -17,23 +17,27 @@ export default function NovaVenda() {
   const [order, setOrder] = useState(false)
   const [supplier, setSuplier] = useState('')
   const [deliveryDate, setDeliveryDate] = useState('')
-  const [clientId, setClientId] = useState(0)
-  const [sellerId, setSellerId] = useState(0)
+  const [clientId, setClientId] = useState(1)
+  const [sellerId, setSellerId] = useState(1)
+   const [searchQuery, setSearchQuery] = useState(''); // State for search input
+  const [filteredClients, setFilteredClients] = useState<Client[]>([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const seller = await getSellersInfo();
-        const client = await getClientInfo()
+        const client = await getClientInfo();
         setSellerData(seller);
-        setClientData(client)
+        setClientData(client);
+        setFilteredClients(client); // Initialize filteredClients with all clients
       } catch (error) {
         console.error('Erro ao buscar dados do vendedor:', error);
       }
     };
     fetchData();
-  }, [])
-
+  }, []);
+  
   const handleSubmit = (e: any) => {
     e.preventDefault()
     const products = {product}
@@ -44,8 +48,15 @@ export default function NovaVenda() {
   const handleCheckboxClick = () => {
     setOrder(!order)
   }
-
-
+  
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    const filtered = clientData.filter((client) =>
+      client.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredClients(filtered);
+  };
+  
   //Conteudo aba de encomendas
   let content
   content = (
@@ -66,17 +77,39 @@ export default function NovaVenda() {
       <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
         <div className='flex gap-4 items-center'>
           <label htmlFor="">Cliente:</label>
-          <select className='p-2 bg-zinc-50 border rounded' id="Funcionarios">
-            {clientData.map((client) => {
-              return <option onClick={()=>setClientId(client.id)} className='' key={client.id} value={client.name}>{client.name}</option>
-            })}
-          </select>
+          <input
+            type="text"
+            className="p-2 bg-zinc-50 border rounded"
+            placeholder="Pesquisar cliente"
+            onChange={(e) => handleSearch(e.target.value)} // Handle search input
+          />
+          {filteredClients.length > 0 ? (
+            <select
+              className="p-2 bg-zinc-50 border rounded"
+              id="Funcionarios"
+              defaultValue=""
+            >
+              {filteredClients.map((client) => (
+                <option
+                  onClick={() => setClientId(client.id)}
+                  key={client.id}
+                  value={client.name}
+                >
+                  {client.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <p className="text-red-500">Nenhum cliente encontrado, <a href="" className='text-blue-900 underline hover:text-blue-500'>cadastrar novo?</a></p>
+          )}
           <label htmlFor="">Vendedor:</label>
-          <select className='p-2 bg-zinc-50 border rounded' id="Funcionarios">
+          {
+            sellerData ? <select className='p-2 bg-zinc-50 border rounded' id="Funcionarios">
             {sellerData.map((seller) => {
               return <option className='' onClick={()=>setSellerId(seller.id)} key={seller.id} value={seller.name}>{seller.name}</option>
             })}
-          </select>
+          </select> : <p className='text-red-500'>Nenhum Vendedor cadastrado.</p>
+          }
         </div>
         <label htmlFor="produtos">Produtos</label>
         <div className='flex gap-4'>
