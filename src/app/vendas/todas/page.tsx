@@ -16,7 +16,7 @@ export default function TodasVendas() {
       }
     };
     fetchData();
-  }, [])
+  }, [sells])
   
   return (
     <main className="p-5 w-full overflow-auto">

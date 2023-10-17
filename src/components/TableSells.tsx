@@ -3,7 +3,7 @@ import { Sell } from '@/@types/Sell';
 import { deleteSells } from '@/utils/deleteSell';
 import { formatDate } from '@/utils/formatDate';
 import React, { useEffect, useState } from 'react';
-import { BsFillTrashFill } from 'react-icons/bs';
+import { BsFillArrowRightCircleFill, BsFillTrashFill } from 'react-icons/bs';
 
 export default function TableSells({ sells }: any) {
   const [filterSeller, setFilterSeller] = useState('all');
@@ -12,11 +12,11 @@ export default function TableSells({ sells }: any) {
   const [totalValue, setTotalValue] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 10;
 
+  const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  
+
 
   const nextPage = () => {
     if (currentPage < Math.ceil(filteredSells.length / itemsPerPage)) {
@@ -53,13 +53,13 @@ export default function TableSells({ sells }: any) {
   const sellsToDisplay = filteredSells.slice(startIndex, endIndex);
 
   useEffect(() => {
-    const sum = sellsToDisplay.reduce((total: number, sell : Sell) => total + sell.amount, 0);
+    const sum = sellsToDisplay.reduce((total: number, sell: Sell) => total + sell.amount, 0);
     setTotalValue(sum);
   }, [sellsToDisplay]);
 
-  const handleDelete = (id : number) => {
+  const handleDelete = (id: number) => {
     deleteSells(id);
-  };
+  };  
 
   return (
     <div>
@@ -103,7 +103,7 @@ export default function TableSells({ sells }: any) {
           </select>
         </div>
       </div>
-      <div className='flex gap-2 m-3'>
+      <div className='flex gap-2 m-2'>
         <div className='text-xl flex gap-4 items-center'><h1>Total Vendido de acordo com os filtros:</h1> <p className=' p-3 rounded-lg text-zinc-900'>{totalValue}R$</p></div>
       </div>
       <table className="min-w-max w-full table-auto">
@@ -120,7 +120,7 @@ export default function TableSells({ sells }: any) {
           </tr>
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
-          {sellsToDisplay.map((sell : Sell) => {
+          {sellsToDisplay.map((sell: Sell) => {
             const formattedDate = formatDate(sell.date);
             return (
               <tr key={sell.id} className="border-b border-gray-200 hover-bg-gray-100">
@@ -148,12 +148,12 @@ export default function TableSells({ sells }: any) {
           })}
         </tbody>
       </table>
-      <div className="pagination">
-        <button onClick={prevPage} disabled={currentPage === 1}>
-          Anterior
+      <div className="flex justify-around">
+        <button onClick={prevPage} className='w-20 p-2'>
+          {currentPage === 1 ? null : <p className='text-lg hover:text-zinc-700'>Anterior</p>}
         </button>
-        <button onClick={nextPage} disabled={currentPage === Math.ceil(filteredSells.length / itemsPerPage)}>
-          Próximo
+        <button onClick={nextPage} className='w-20 p-2'>
+          {currentPage === Math.ceil(filteredSells.length / itemsPerPage) ? null : <p className='text-lg hover:text-zinc-700'>Próxima</p>}
         </button>
       </div>
     </div>

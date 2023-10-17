@@ -19,7 +19,7 @@ export default function NovaVenda() {
   const [deliveryDate, setDeliveryDate] = useState('')
   const [clientId, setClientId] = useState(1)
   const [sellerId, setSellerId] = useState(1)
-   const [searchQuery, setSearchQuery] = useState(''); // State for search input
+  const [searchQuery, setSearchQuery] = useState(''); // State for search input
   const [filteredClients, setFilteredClients] = useState<Client[]>([]);
 
 
@@ -37,38 +37,43 @@ export default function NovaVenda() {
     };
     fetchData();
   }, []);
-  
+
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    const products = {product}
-    const sell = JSON.stringify({amount, paymentType, products, order, supplier, deliveryDate, clientId, sellerId})
+    const products = { product }
+    const sell = JSON.stringify({ amount, paymentType, products, order, supplier, deliveryDate, clientId, sellerId })
     postSell(sell)
   }
 
   const handleCheckboxClick = () => {
     setOrder(!order)
   }
-  
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     const filtered = clientData.filter((client) =>
       client.name.toLowerCase().includes(query.toLowerCase())
     );
-    if(filtered.length > 0){
+    if (filtered.length > 0) {
       setClientId(filtered[0].id)
-    }else {}
+    } else { }
     setFilteredClients(filtered);
   };
-  
+
   //Conteudo aba de encomendas
   let content
   content = (
     <div className='flex gap-4 flex-col'>
       <h1>Preencha os campos da encomenda.</h1>
-      <div className='flex items-center gap-4'>
-        <input required type="text" className='p-2 border' placeholder='Fornecedor' onChange={(e)=> setSuplier(e.target.value)}/>
-        <label>Data de entrega da encomenda?: </label>
-        <input required onChange={(e)=>setDeliveryDate(e.target.value)} type="date" className='p-2 border' placeholder='Fornecedor' />
+      <div className='flex flex-col gap-4'>
+        <div>
+          <label htmlFor="">Fornecedor: </label>
+          <input required type="text" className='p-2 border' placeholder='ex: Lucas' onChange={(e) => setSuplier(e.target.value)} />
+        </div>
+        <div>
+          <label>Data de entrega da encomenda?: </label>
+          <input required onChange={(e) => setDeliveryDate(e.target.value)} type="date" className='p-2 border' placeholder='Fornecedor' />
+        </div>
       </div>
     </div>
 
@@ -107,21 +112,24 @@ export default function NovaVenda() {
           <label htmlFor="">Vendedor:</label>
           {
             sellerData ? <select className='p-2 bg-zinc-50 border rounded' id="Funcionarios">
-            {sellerData.map((seller) => {
-              return <option onLoad={()=>setSellerId(seller.id)} onClick={()=>setSellerId(seller.id)} key={seller.id} value={seller.name}>{seller.name}</option>
-            })}
-          </select> : <p className='text-red-500'>Nenhum Vendedor cadastrado.</p>
+              {sellerData.map((seller) => {
+                return <option onLoad={() => setSellerId(seller.id)} onClick={() => setSellerId(seller.id)} key={seller.id} value={seller.name}>{seller.name}</option>
+              })}
+            </select> : <p className='text-red-500'>Nenhum Vendedor cadastrado.</p>
           }
         </div>
         <label htmlFor="produtos">Produtos</label>
         <div className='flex gap-4'>
-          <textarea name="produtos" onChange={(e)=>{setProduct(e.target.value)}} id="produtos" cols={50} placeholder='Produtos' className='rounded border resize-none p-2 h-10' />
-          <input required type="number" onChange={(e)=>setAmount(+e.target.value)} className='rounded p-2 w-32 border' placeholder='Valor Total' />
+          <textarea name="produtos" onChange={(e) => { setProduct(e.target.value) }} id="produtos" cols={50} placeholder='Produtos' className='rounded border resize-none p-2 h-10' />
+          <input required type="number" onChange={(e) => setAmount(+e.target.value)} className='rounded p-2 w-32 border' placeholder='Valor Total' />
         </div>
-        <div className='flex gap-4 items-center'>
-          <input required type="text" className='rounded p-2 border' placeholder='Forma de pagamento' onChange={(e)=>setPaymentType(e.target.value)}/>
-          <label>É uma encomenda?</label>
-          <input type="checkbox" value={order} onClick={handleCheckboxClick} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+        <div className='flex flex-col gap-4'>
+          <label htmlFor="">Forma de pagamento: </label>
+          <input required type="text" className='rounded p-2 border' placeholder='ex: Crédito' onChange={(e) => setPaymentType(e.target.value)} />
+          <div className='flex gap-4 items-center'>
+            <label>É uma encomenda?</label>
+            <input type="checkbox" value={order} onClick={handleCheckboxClick} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+          </div>
         </div>
         {order ? <>{content}</> : <div></div>}
         <button className='border p-2 w-80 bg-blue-500 text-white'>Enviar</button>
