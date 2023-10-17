@@ -54,6 +54,9 @@ export default function NovaVenda() {
     const filtered = clientData.filter((client) =>
       client.name.toLowerCase().includes(query.toLowerCase())
     );
+    if(filtered.length > 0){
+      setClientId(filtered[0].id)
+    }else {}
     setFilteredClients(filtered);
   };
   
@@ -81,13 +84,12 @@ export default function NovaVenda() {
             type="text"
             className="p-2 bg-zinc-50 border rounded"
             placeholder="Pesquisar cliente"
-            onChange={(e) => handleSearch(e.target.value)} // Handle search input
+            onChange={(e) => handleSearch(e.target.value)}
           />
           {filteredClients.length > 0 ? (
             <select
               className="p-2 bg-zinc-50 border rounded"
               id="Funcionarios"
-              defaultValue=""
             >
               {filteredClients.map((client) => (
                 <option
@@ -106,7 +108,7 @@ export default function NovaVenda() {
           {
             sellerData ? <select className='p-2 bg-zinc-50 border rounded' id="Funcionarios">
             {sellerData.map((seller) => {
-              return <option className='' onClick={()=>setSellerId(seller.id)} key={seller.id} value={seller.name}>{seller.name}</option>
+              return <option onLoad={()=>setSellerId(seller.id)} onClick={()=>setSellerId(seller.id)} key={seller.id} value={seller.name}>{seller.name}</option>
             })}
           </select> : <p className='text-red-500'>Nenhum Vendedor cadastrado.</p>
           }
