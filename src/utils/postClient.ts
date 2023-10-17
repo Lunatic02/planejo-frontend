@@ -14,7 +14,7 @@ export async function postClient(clients: any) {
       return response.json();
     })
     .then(data => {
-      window.location.href = '/vendas/todas';
+      window.location.href = '/clientes/todos';
     })
   }catch(error){
     console.log(error)
