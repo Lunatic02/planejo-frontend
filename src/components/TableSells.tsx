@@ -1,13 +1,18 @@
 'use client'
 import { deleteSells } from '@/utils/deleteSell';
 import { formatDate } from '@/utils/formatDate';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs';
 
 export default function TableSells({ sells }) {
   const [filterSeller, setFilterSeller] = useState('all');
   const [filterClient, setFilterClient] = useState('');
   const [filterDate, setFilterDate] = useState('all');
+  const [totalValue, setTotalValue] = useState(0);
+
+ 
+
+  
 
   const filteredSells = sells.filter((sell) => {
     const sellerMatch = filterSeller === 'all' || sell.seller.name === filterSeller;
@@ -30,34 +35,47 @@ export default function TableSells({ sells }) {
     }
   });
 
+  useEffect(() => {
+    const sum = filteredSells.reduce((total, sell) => total + sell.amount, 0);
+    setTotalValue(sum);
+  }, [filteredSells]);
+
+  const handleDelete = (id : number)=>{
+    deleteSells(id)
+  }
+
   return (
     <div>
-      <div className="filters">
-        <div className="filter">
-          <label htmlFor="filterSeller">Filtrar por Vendedor:</label>
+      <div className="flex gap-2 m-3">
+        <div className="flex gap-2">
+          <label className='p-1'>Vendedor:</label>
           <select
             id="filterSeller"
             value={filterSeller}
+            className='p-1 rounded'
             onChange={(e) => setFilterSeller(e.target.value)}
           >
             <option value="all">Todos</option>
             <option value="Lucas Henrique Torresin da Costa">Lucas Henrique Torresin da Costa</option>
             <option value="Maike Torresin Bigoli">Maike Torresin Bigoli</option>
-            
+
           </select>
         </div>
-        <div className="filter">
-          <label htmlFor="filterClient">Pesquisar por Cliente:</label>
+        <div className="flex gap-2">
+          <label className='p-1'>Cliente:</label>
           <input
             id="filterClient"
             type="text"
+            className='p-1 border rounded'
             value={filterClient}
+            placeholder='Pesquise o nome do cliente'
             onChange={(e) => setFilterClient(e.target.value)}
           />
         </div>
-        <div className="filter">
-          <label htmlFor="filterDateRange">Filtrar por Data:</label>
+        <div className="flex gap-2">
+          <label className='p-1'>Data:</label>
           <select
+          className='p-1 rounded'
             id="filterDateRange"
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
@@ -68,6 +86,10 @@ export default function TableSells({ sells }) {
             <option value="365">Último ano</option>
           </select>
         </div>
+      </div>
+      <div className='flex gap-2 m-3'>
+        <div className='text-xl flex gap-4 items-center'><h1>Total Vendido de acordo com os filtros:</h1> <p className=' p-3 rounded-lg text-zinc-900'>{totalValue}R$</p></div>
+
       </div>
       <table className="min-w-max w-full table-auto">
         <thead>
@@ -89,7 +111,7 @@ export default function TableSells({ sells }) {
               <tr key={sell.id} className="border-b border-gray-200 hover-bg-gray-100">
                 <td className="py-3 px-6 text-center">
                   <span
-                    onClick={() => { deleteSells(sell.id) }}
+                    onClick={() => { handleDelete(sell.id) }}
                     className='hover:text-red-500 transition-all cursor-pointer'
                   >
                     <BsFillTrashFill />
