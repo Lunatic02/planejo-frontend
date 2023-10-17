@@ -20,7 +20,7 @@ export default function TodasVendas() {
   
   return (
     <main className="p-5 w-full overflow-auto">
-      <div className="bg-white shadow-md rounded my-6 overflow-x-auto h-full">
+      <div className="bg-white shadow-md rounded py-6 overflow-x-auto h-full">
         <TableSells sells={sells}/>
       </div>
     </main>

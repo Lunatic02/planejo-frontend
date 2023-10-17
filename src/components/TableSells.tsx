@@ -1,20 +1,36 @@
 'use client'
+import { Sell } from '@/@types/Sell';
 import { deleteSells } from '@/utils/deleteSell';
 import { formatDate } from '@/utils/formatDate';
 import React, { useEffect, useState } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs';
 
-export default function TableSells({ sells }) {
+export default function TableSells({ sells }: any) {
   const [filterSeller, setFilterSeller] = useState('all');
   const [filterClient, setFilterClient] = useState('');
   const [filterDate, setFilterDate] = useState('all');
   const [totalValue, setTotalValue] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
- 
+  const itemsPerPage = 10;
 
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
   
 
-  const filteredSells = sells.filter((sell) => {
+  const nextPage = () => {
+    if (currentPage < Math.ceil(filteredSells.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const filteredSells = sells.filter((sell: Sell) => {
     const sellerMatch = filterSeller === 'all' || sell.seller.name === filterSeller;
     const clientMatch = filterClient === '' || sell.client.name.toLowerCase().includes(filterClient.toLowerCase());
 
@@ -34,19 +50,20 @@ export default function TableSells({ sells }) {
       return sellerMatch && clientMatch;
     }
   });
+  const sellsToDisplay = filteredSells.slice(startIndex, endIndex);
 
   useEffect(() => {
-    const sum = filteredSells.reduce((total, sell) => total + sell.amount, 0);
+    const sum = sellsToDisplay.reduce((total: number, sell : Sell) => total + sell.amount, 0);
     setTotalValue(sum);
-  }, [filteredSells]);
+  }, [sellsToDisplay]);
 
-  const handleDelete = (id : number)=>{
-    deleteSells(id)
-  }
+  const handleDelete = (id : number) => {
+    deleteSells(id);
+  };
 
   return (
     <div>
-      <div className="flex gap-2 m-3">
+      <div className="flex gap-2 p-3">
         <div className="flex gap-2">
           <label className='p-1'>Vendedor:</label>
           <select
@@ -58,7 +75,6 @@ export default function TableSells({ sells }) {
             <option value="all">Todos</option>
             <option value="Lucas Henrique Torresin da Costa">Lucas Henrique Torresin da Costa</option>
             <option value="Maike Torresin Bigoli">Maike Torresin Bigoli</option>
-
           </select>
         </div>
         <div className="flex gap-2">
@@ -75,7 +91,7 @@ export default function TableSells({ sells }) {
         <div className="flex gap-2">
           <label className='p-1'>Data:</label>
           <select
-          className='p-1 rounded'
+            className='p-1 rounded'
             id="filterDateRange"
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
@@ -89,7 +105,6 @@ export default function TableSells({ sells }) {
       </div>
       <div className='flex gap-2 m-3'>
         <div className='text-xl flex gap-4 items-center'><h1>Total Vendido de acordo com os filtros:</h1> <p className=' p-3 rounded-lg text-zinc-900'>{totalValue}R$</p></div>
-
       </div>
       <table className="min-w-max w-full table-auto">
         <thead>
@@ -105,7 +120,7 @@ export default function TableSells({ sells }) {
           </tr>
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
-          {filteredSells.map((sell) => {
+          {sellsToDisplay.map((sell : Sell) => {
             const formattedDate = formatDate(sell.date);
             return (
               <tr key={sell.id} className="border-b border-gray-200 hover-bg-gray-100">
@@ -133,6 +148,14 @@ export default function TableSells({ sells }) {
           })}
         </tbody>
       </table>
+      <div className="pagination">
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          Anterior
+        </button>
+        <button onClick={nextPage} disabled={currentPage === Math.ceil(filteredSells.length / itemsPerPage)}>
+          Próximo
+        </button>
+      </div>
     </div>
   );
 }
