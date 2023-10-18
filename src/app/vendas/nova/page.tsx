@@ -107,7 +107,7 @@ export default function NovaVenda() {
               ))}
             </select>
           ) : (
-            <p className="text-red-500">Nenhum cliente encontrado, <a href="" className='text-blue-900 underline hover:text-blue-500'>cadastrar novo?</a></p>
+            <p className="text-red-500">Nenhum cliente encontrado, <a href="/clientes/novo" className='text-blue-900 underline hover:text-blue-500'>cadastrar novo?</a></p>
           )}
           <label htmlFor="">Vendedor:</label>
           {
