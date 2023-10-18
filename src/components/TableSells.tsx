@@ -5,7 +5,7 @@ import { formatDate } from '@/utils/formatDate';
 import React, { useEffect, useState } from 'react';
 import { BsFillArrowRightCircleFill, BsFillTrashFill } from 'react-icons/bs';
 
-export default function TableSells({ sells }: any) {
+export default function TableSells({ sells, handleDeleteBoolean }: any) {
   const [filterSeller, setFilterSeller] = useState('all');
   const [filterClient, setFilterClient] = useState('');
   const [filterDate, setFilterDate] = useState('all');
@@ -59,6 +59,7 @@ export default function TableSells({ sells }: any) {
 
   const handleDelete = (id: number) => {
     deleteSells(id);
+    handleDeleteBoolean(true)
   };  
 
   return (
