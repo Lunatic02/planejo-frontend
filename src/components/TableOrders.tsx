@@ -26,27 +26,27 @@ export default function TableOrders({ orders, handleDone }: TableOrdersParam) {
     }
   }
 
-  // const getFilteredAndPaginatedClients = () => {
-  //   let filteredClients = orders;
+  const getFilteredAndPaginatedClients = () => {
+    let filteredOrders = orders;
 
-  //   if (searchTerm) {
-  //     filteredClients = filteredClients.filter((client: Client) =>
-  //       client.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //   }
+    if (searchTerm) {
+      filteredOrders = filteredOrders.filter((order: Sell) =>
+        order.client.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
 
-  //   const startIndex = (currentPage - 1) * itemsPerPage;
-  //   const endIndex = startIndex + itemsPerPage;
-  //   return filteredClients.slice(startIndex, endIndex);
-  // };
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredOrders.slice(startIndex, endIndex);
+  };
 
-  // const paginatedClients = getFilteredAndPaginatedClients();
+  const paginatedClients = getFilteredAndPaginatedClients();
   return (
     <div>
       <div className="flex gap-2 p-3">
         <input
           type="text"
-          placeholder="Pesquisar por nome"
+          placeholder="Pesquisar por nome do cliente"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="border p-2 rounded-md"
@@ -65,7 +65,7 @@ export default function TableOrders({ orders, handleDone }: TableOrdersParam) {
           </tr>
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
-          {orders.map((order: Sell) => {
+          {paginatedClients.map((order: Sell) => {
             return (
               <>
                 {

@@ -7,11 +7,13 @@ products	:{
   product: string
 }
 order?: boolean
+done: boolean
 supplier?: string
 deliveryDate? : string
 clientId: number
 sellerId: number
 client	:{
+  toLowerCase(): unknown
   id: number
 name: string
 email: string
