@@ -3,9 +3,14 @@ import { Sell } from '@/@types/Sell';
 import { deleteSells } from '@/utils/deleteSell';
 import { formatDate } from '@/utils/formatDate';
 import React, { useEffect, useState } from 'react';
-import { BsFillArrowRightCircleFill, BsFillTrashFill } from 'react-icons/bs';
+import { BsFillTrashFill } from 'react-icons/bs';
 
-export default function TableSells({ sells, handleDeleteBoolean }: any) {
+interface TableSellsParam {
+  sells: Sell[],
+  handleDeleteBoolean: Function,
+}
+
+export default function TableSells({ sells, handleDeleteBoolean }: TableSellsParam) {
   const [filterSeller, setFilterSeller] = useState('all');
   const [filterClient, setFilterClient] = useState('');
   const [filterDate, setFilterDate] = useState('all');

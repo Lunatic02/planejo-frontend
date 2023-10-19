@@ -5,9 +5,13 @@ import { Client } from "@/@types/Clients";
 import { deleteClients } from "@/utils/deleteClients";
 import { BsFillTrashFill } from "react-icons/bs";
 
-export default function TableClients({ clients, handleDeleteBoolean }: any) {
+interface TableClientsParam {
+  clients: Client[],
+  handleDeleteBoolean: Function,
+}
+
+export default function TableClients({ clients, handleDeleteBoolean }: TableClientsParam) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedLetter, setSelectedLetter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 

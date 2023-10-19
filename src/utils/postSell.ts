@@ -1,4 +1,4 @@
-export async function postSell(sell: any) {
+export async function postSell(sell: BodyInit ) {
   try{
     fetch('http://localhost:3333/sells/', {
       method: 'POST',

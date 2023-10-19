@@ -20,7 +20,7 @@ export default function TodasVendas() {
     setDeleteBoolean(false)
   }, [deleteBoolean])
 
-  const handleDeleteBoolean = (data) =>{
+  const handleDeleteBoolean = (data : boolean) =>{
     setDeleteBoolean(data)
   }
   return (

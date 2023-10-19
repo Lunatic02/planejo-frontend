@@ -20,7 +20,7 @@ export default function TodosClientes() {
     setDeleteBoolean(false)
   }, [deleteBoolean])
 
-  const handleDeleteBoolean = (data) =>{
+  const handleDeleteBoolean = (data: boolean) =>{
     setDeleteBoolean(data)
   }
   return (

@@ -1,4 +1,4 @@
-export async function postClient(clients: any) {
+export async function postClient(clients: BodyInit) {
   try{
     fetch('http://localhost:3333/clients/', {
       method: 'POST',
