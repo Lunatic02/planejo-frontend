@@ -14,9 +14,11 @@ export default function TableClients({ clients, handleDeleteBoolean }: TableClie
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  
 
   const handleDelete = (id: number) => {
-    deleteClients(id);
+    const token = localStorage.getItem('token');
+    deleteClients(id, token);
     handleDeleteBoolean(true);
   };
 

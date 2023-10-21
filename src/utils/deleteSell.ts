@@ -1,7 +1,11 @@
-export async function deleteSells(id : number) {
+export async function deleteSells(id : number, token: any) {
   try {
     const response = await fetch(`http://localhost:3333/sells/${id}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     });
 
     if (response.ok) {

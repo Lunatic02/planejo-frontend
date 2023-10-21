@@ -1,9 +1,10 @@
-export async function updateOrderDone(id: number, done: BodyInit) {
+export async function updateOrderDone(id: number, done: BodyInit, token: any) {
   try {
     const response = await fetch(`http://localhost:3333/sells/${id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: done
     });

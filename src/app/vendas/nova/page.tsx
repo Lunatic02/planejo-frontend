@@ -35,14 +35,19 @@ export default function NovaVenda() {
         console.error('Erro ao buscar dados do vendedor:', error);
       }
     };
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login';
+    }
     fetchData();
   }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
+    const token = localStorage.getItem('token');
     const products = { product }
     const sell = JSON.stringify({ amount, paymentType, products, order, supplier, deliveryDate, clientId, sellerId })
-    postSell(sell)
+    postSell(sell, token)
   }
 
   const handleCheckboxClick = () => {

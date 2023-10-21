@@ -1,9 +1,10 @@
-export async function postClient(clients: BodyInit) {
+export async function postClient(clients: BodyInit, token: any) {
   try{
     fetch('http://localhost:3333/clients/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: clients
     })

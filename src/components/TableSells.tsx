@@ -63,7 +63,8 @@ export default function TableSells({ sells, handleDeleteBoolean }: TableSellsPar
   }, [sellsToDisplay]);
 
   const handleDelete = (id: number) => {
-    deleteSells(id);
+    const token = localStorage.getItem('token');
+    deleteSells(id, token);
     handleDeleteBoolean(true)
   };  
 

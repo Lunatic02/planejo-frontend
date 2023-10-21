@@ -16,6 +16,10 @@ export default function Encomendas() {
         console.error('Erro ao buscar dados do vendedor:', error);
       }
     };
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login';
+    }
     fetchData();
     setDone(false)
   }, [done])

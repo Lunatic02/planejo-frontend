@@ -2,6 +2,7 @@ import LeftSideMenu from '@/components/LeftSideMenu'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
+import { useRouter } from 'next/router'
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400'] })
 
@@ -13,14 +14,15 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+
+
   return (
     <html lang="en">
-      <body className={`flex ${poppins.className}`}>
-        <LeftSideMenu />
+      <body className={`${poppins.className}`}>
         {children}
       </body>
     </html>
-  )
+  );
 }

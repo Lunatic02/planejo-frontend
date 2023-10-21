@@ -1,6 +1,6 @@
 'use client'
 import { postClient } from "@/utils/postClient"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function NovoClientes() {
 
@@ -11,11 +11,19 @@ export default function NovoClientes() {
   const [email, setEmail] = useState('')
   const [interests, setInterests] = useState('')
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login';
+    }
+  }, [])
+  
   function handleSubmit(e: any) {
     e.preventDefault()
+    const token = localStorage.getItem('token');
     const clients = JSON.stringify({ name, gender, birthDate, cellphone, email, interests})
     console.log(clients)
-    postClient(clients)
+    postClient(clients, token)
   }
 
   return (

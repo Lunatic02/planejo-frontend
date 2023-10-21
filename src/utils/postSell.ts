@@ -1,9 +1,10 @@
-export async function postSell(sell: BodyInit ) {
+export async function postSell(sell: BodyInit, token: any ) {
   try{
     fetch('http://localhost:3333/sells/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: sell
     })

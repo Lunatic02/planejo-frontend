@@ -19,7 +19,8 @@ export default function TableOrders({ orders, handleDone }: TableOrdersParam) {
   const handleDoneFunction = async (id: number, done: any) => {
     try {
       const doneObject = JSON.stringify({ done })
-      await updateOrderDone(id, doneObject);
+      const token = localStorage.getItem('token');
+      await updateOrderDone(id, doneObject, token);
       handleDone(true);
     } catch (error) {
       console.error(error);
