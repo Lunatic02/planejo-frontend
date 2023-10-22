@@ -7,7 +7,7 @@ export default function Page() {
   const [password, setPassword] = useState('')
   const [wrongCredentials, setWrongCredentials] = useState(false)
 
-  async function handleLogin(e) {
+  async function handleLogin(e: any) {
     e.preventDefault()
 
     await fetch('http://localhost:3333/auth/login', {
