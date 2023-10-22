@@ -1,6 +1,6 @@
 export async function deleteSells(id : number, token: any) {
   try {
-    const response = await fetch(`http://localhost:3333/sells/${id}`, {
+    const response = await fetch(`https://planejo-backend-zl87.vercel.app/sells/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,

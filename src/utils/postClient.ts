@@ -1,6 +1,6 @@
 export async function postClient(clients: BodyInit, token: any) {
   try{
-    fetch('http://localhost:3333/clients/', {
+    fetch('https://planejo-backend-zl87.vercel.app/clients/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

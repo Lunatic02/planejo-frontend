@@ -1,6 +1,6 @@
 export async function postSell(sell: BodyInit, token: any ) {
   try{
-    fetch('http://localhost:3333/sells/', {
+    fetch('https://planejo-backend-zl87.vercel.app/sells/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

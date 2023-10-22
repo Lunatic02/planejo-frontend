@@ -10,7 +10,7 @@ export default function Page() {
   async function handleLogin(e: any) {
     e.preventDefault()
 
-    await fetch('http://localhost:3333/auth/login', {
+    await fetch('https://planejo-backend-zl87.vercel.app/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

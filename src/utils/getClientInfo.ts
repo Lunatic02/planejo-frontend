@@ -1,6 +1,6 @@
 export async function getClientInfo() {
   try {
-    const response = await fetch(`http://localhost:3333/clients`, {
+    const response = await fetch(`https://planejo-backend-zl87.vercel.app/clients`, {
       method: 'GET',
     });
 

@@ -1,6 +1,6 @@
 export async function getSells() {
   try {
-    const response = await fetch(`http://localhost:3333/sells`, {
+    const response = await fetch(`https://planejo-backend-zl87.vercel.app/sells`, {
       method: 'GET',
     });
 
