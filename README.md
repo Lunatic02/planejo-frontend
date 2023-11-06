@@ -25,6 +25,11 @@
 ![image](https://github.com/Lunatic02/planejo-frontend/assets/82097583/d0e02c31-6ff4-41ce-ada5-4ec5cdda1947)
 
 
+<h2>Quer desenvolver seu sistema? Entre em contato nos links abaixo.</h2>
+<h3>Email: <a href="mailto:lucas_hcosta@live.com">lucas_hcosta@live.com</a></h3>
+<h3>Linkedin: <a href="https://www.linkedin.com/in/lucas-torresin-0052b9207/">Lucas Torresin</a></h3>
+
+
 
 
 
